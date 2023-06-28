@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Sell
+{% endblock %}
+
+{% block main %}
+    <form action="/sell" method="post">
+        <div class="mx-auto col-10 col-md-8 col-lg-3">
+            <label for="Symbol">Choose a stock symbol:</label>
+            <select class="form-select" aria-label="Symbol" id="symbol" name="symbol" placeholder="Stock symbol" type="text" style="width:auto justify-content-center">
+                <option selected>Open this select menu</option>
+                {# loop thru the symblols #}
+                {% for x in symbol_list %}
+                    <option value="{{ x.symbol }}">{{ x.symbol }}</option>
+                {% endfor %}
+              </select>
+            <br>
+            <input class="form-control mx-auto w-auto" id="shares" name="shares" placeholder="Qty." type="text">
+        </div>
+        <br>
+        <button class="btn btn-primary" type="submit">Sell</button>
+    </form>
+{% endblock %}

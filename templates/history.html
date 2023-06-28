@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    History
+{% endblock %}
+
+{% block main %}
+    <p>Transactions</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Trade Type</th>
+                <th>Time</th>
+                <th>Symbol</th>
+                <th>Shares</th>
+                <th>Price</th>
+                <th>TOTAL</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for trade in trades %}
+                <tr>
+                    <td>{{ trade["tradetype"] }}</td>
+                    <td>{{ trade["tiempo"] }}</td>
+                    <td>{{ trade["symbol"] }}</td>
+                    <td>{{ trade["shares"] }}</td>
+                    <td>{{ trade["price"] | usd }}</td>
+                    <td>{{ -(trade["price"] * trade["shares"]) | usd }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

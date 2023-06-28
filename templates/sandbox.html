@@ -1,0 +1,212 @@
+if request.method == "POST":
+        symbol = request.form.get("symbol")
+        if not symbol:
+            return apology("Please enter a symbol")
+        item = lookup(symbol)
+        if not item:
+            return apology("Invalid symbol")
+        return render_template("quoted.html", item=item)
+
+
+    else:
+            return render_template("quote.html")
+
+
+            <tfoot>
+                <tr>
+                    <td colspan="4"></td>
+                    <td>{{ totalvalue }}</td>
+                </tr>
+            </tfoot>
+
+            ---------------------------------
+
+    def sell():
+    """Sell shares of stock"""
+    # User reached route via GET (as by clicking a link or via redirect)
+    if request.method == "GET":
+        return render_template("sell.html")
+
+    else:
+        # User reached route via POST (as by submitting a form via POST)
+        symbol = request.form.get("symbol")
+        shares = request.form.get("shares")
+
+        if not symbol or not shares:
+            return apology("must provide symbol and shares", 400)
+
+        # Ensure shares are numeric
+        try:
+            i = float(shares)
+        except Exception:
+            return apology("Shares must be numeric", 400)
+
+        # Ensure shares are positive number
+        if not i > 0:
+            return apology("shares must be + number", 400)
+
+        # Ensure shares are not a fraction
+        j = i % 1
+        if j != 0:
+            return apology("Shares must be a whole number", 400)
+
+        # Query IEX for stock symbol
+        stock = lookup(symbol.upper())
+        current_time = strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime())
+        print(current_time)
+
+        # Ensure stock's symbol is found at IEX
+        if stock == None:
+            return apology("Could not find stock at IEX", 400)
+
+        # Ensure the user owns enough shares to make the trade
+        row = db.execute("SELECT * FROM history WHERE user_id = ? AND symbol = ? GROUP BY symbol", session["user_id"], symbol)
+        if (len(row) == 0 or row[0]["shares"] < shares):
+            return apology("Not enough shares for this sale", 400)
+        print(shares,row[0]["shares"], file=sys.stderr)
+
+        # Prepare for trade by retrieving cash
+        row_cash = db.execute("SELECT * FROM users WHERE id = ?", session["user_id"])
+        if len(row_cash) == 0:
+            return apology("could not find user data", 400)
+        cashavail = row_cash[0]["cash"]
+
+        # Calculate the cost of transaction
+        cost = stock["price"] * float(shares)
+
+        # TO DO - Execute trade by doing stuff with stock (eg. add shares to list of holdings, deduct price*shares from cash)
+
+        # If all good, register in history as completed trade and register in holdings
+        db.execute("UPDATE users SET cash = ? WHERE id = ?", cashavail + cost, session["user_id"])
+        db.execute("INSERT INTO history (user_id, tradetype, tiempo, symbol, shares, price) VALUES (?, ?, ?, ?, ?, ?)", session["user_id"], "sell", current_time, stock["symbol"], shares * (-1), stock["price"])
+
+        # Redirect user to home page
+        return redirect("/")
+
+
+    ---------------------------------------
+    # maybe useful from stackoverflow for Buy with select
+
+# db_col is the list of the three labels of the HTML form
+db_col = ['Container ID', 'Container Type', 'Date of Manufacture']
+
+# df_list is the list of the six options available in the dropdown list
+df_list = ['Container ID', 'Container Type', 'Unit', 'Year of Manufacture', 'Date of Manufacture', 'Age']
+
+# smart_mapping is the list of the three pre-selected options for the label in order
+smart_mapping = ['Container ID', 'Container Type', 'Date of Manufacture']
+
+# smart_mapping_dict is the dictionary of the labels as keys and pre-selected options as values
+smart_mapping_dict = {'Container ID': 'Container ID', 'Container Type': 'Container Type', 'Date of Manufacture': 'Date of Manufacture'}
+
+    <form class="uploadDataForm" action="/mapping2/{{ id }}" method = "POST">
+
+        {% for fetchcol in db_col %}
+
+            <label for="{{ fetchcol }}">{{ fetchcol }}</label>
+            <select class="form-select" name="{{ fetchcol }}" id="fetchcol{{ loop.index }}" onclick="changeColumnCol{{ loop.index }}(this.value)" >
+
+                {% for ex_col in df_list %}
+                    {% if ex_col == smart_mapping_dict[fetchcol] %}
+                        <option value="{{ ex_col }}" selected>{{ ex_col }}</option>
+                    {% else %}
+                        <option value="{{ ex_col }}">{{ ex_col }}</option>
+                    {% endif %}
+                {% endfor %}
+
+            </select>
+            <br>
+            {% endfor %}
+
+            <div class="text-center">
+                <a href="/second_page/{{ id }}" class="btn btn-danger">Discard Data Tape</a>
+                <button class="btn btn-default nextBtn text-center ">Next</button>
+            </div>
+
+        </form>
+
+
+        ------------------
+
+
+
+        <option value="AAPL">AAPL</option>
+        <option value="NVDA">NVDA</option>
+        <option value="T">T</option>
+
+        --------------
+
+        {% for dict_item in history_list %}
+        <tr>
+            {% for value in dict_item.values() %}
+            <td> {{ value }} </td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+        {% for x in symbol_list %}
+            <option value="{{ x }}">{{ x }}</option>
+        {% endfor %}
+-----------------
+{% for dict_item in history_list %}
+<tr>
+    {% for value in dict_item.values() %}
+    <td> {{ value }} </td>
+    {% endfor %}
+</tr>
+{% endfor %}
+
+----------------------------------------
+
+def history():
+    """Show history of trades"""
+
+    trades = db.execute("SELECT * FROM history WHERE user_id = ?", session["user_id"])
+    return render_template("history.html", trades=trades)
+
+----------------------------------------
+
+@app.route("/account", methods=["GET", "POST"])
+@login_required
+def account():
+    """Add cash"""
+    # User reached route via GET (as by clicking a link or via redirect)
+    if request.method == "GET":
+        return render_template("account.html")
+
+    else:
+        # User reached route via POST (as by submitting a form via POST)
+        new_cash = request.form.get("cash")
+
+        # Ensure valid request for cash (eg. numeric, positive, whole number)
+        if not new_cash:
+            return apology("must provide the amount of cash", 400)
+        try:
+            i = float(new_cash)
+        except Exception:
+            return apology("Shares must be numeric", 400)
+        if i < 0:
+            return apology("shares must be + number", 400)
+        j = i % 1
+        if j != 0:
+            return apology("share must be a whole number", 400)
+
+        current_time = strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime())
+
+        # Query how much cash user already has
+        row = db.execute("SELECT * FROM users WHERE id = ?", session["user_id"])
+        if len(row) == 0:
+            return apology("could not find user data", 400)
+        cashavail = row[0]["cash"]
+
+        # Register in users db
+        db.execute("UPDATE users SET cash = ? WHERE id = ?", cashavail + new_cash, session["user_id"])
+        # db.execute("INSERT INTO history (user_id, tradetype, tiempo, symbol, shares, price) VALUES (?, ?, ?, ?, ?, ?)", session["user_id"], "buy", current_time, stock["symbol"], shares, stock["price"])
+
+        # Redirect user to home page
+        return redirect("/")
+
+-------------
+
+mb-3"
+
+mx-auto col-10 col-md-8 col-lg-6

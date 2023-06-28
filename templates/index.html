@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Index
+{% endblock %}
+
+{% block main %}
+    <p>Assets</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Symbol</th>
+                <th>Shares</th>
+                <th>Price</th>
+                <th>TOTAL</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for stock in stocks %}
+                <tr>
+                    <td>{{ stock["name"] }}</td>
+                    <td>{{ stock["symbol"] }}</td>
+                    <td>{{ stock["sum(shares)"] }}</td>
+                    <td>{{ stock["price"] | usd }}</td>
+                    <td>{{ (stock["price"] * stock["sum(shares)"]) | usd }}</td>
+                </tr>
+            {% endfor %}
+            <tr>
+                <td colspan="4" style="text-align: right">STOCKS SUBTOTAL</td>
+                <td>{{ stocks_sub | usd }}</td>
+            </tr>
+            <tr>
+                <td colspan="4" style="text-align: right">CASH</td>
+                <td>{{ cash | usd }}</td>
+            </tr>
+            <tr>
+                <td colspan="4" style="text-align: right">TOTAL</td>
+                <td>{{ total | usd }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+{% endblock %}
