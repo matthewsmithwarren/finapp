@@ -118,3 +118,7 @@ def register():
 def sell():
     """Sell shares of stock"""
     return apology("TODO")
+
+
+if __name__ == "__main__":
+    app.run()
