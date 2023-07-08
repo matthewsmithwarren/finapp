@@ -46,7 +46,7 @@ def index():
     val_stocks = 0
     for stock in stocks:
         current = lookup(stock["symbol"])
-        stock["name"] = current["name"]
+        # deleted .... stock["name"] = current["name"]
         stock["price"] = current["price"]
         val_stocks = val_stocks + (stock["price"] * stock["sum(shares)"])
     row = db.execute("SELECT * FROM users WHERE id = ?", session["user_id"])
@@ -196,7 +196,7 @@ def quote():
             return apology("could not find stock at IEX", 400)
 
         # Redirect user to quoted page
-        return render_template("quoted.html", name=stock["name"], price=stock["price"], symbol=stock["symbol"])
+        return render_template("quoted.html", price=stock["price"], symbol=stock["symbol"])
 
 
 @app.route("/register", methods=["GET", "POST"])

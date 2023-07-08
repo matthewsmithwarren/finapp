@@ -46,7 +46,9 @@ def lookup(symbol):
     # Contact API
     try:
         api_key = os.environ.get("API_KEY")
-        url = f"https://cloud.iexapis.com/stable/stock/{urllib.parse.quote_plus(symbol)}/quote?token={api_key}"
+        # changing endpoint to align with my IEX purchase of bare minimum data plan "IEX Bid, Ask, and Last Trade"
+        # url = f"https://cloud.iexapis.com/stable/stock/{urllib.parse.quote_plus(symbol)}/quote?token={api_key}"
+        url = f"https://api.iex.cloud/v1/tops/last?symbols={symbol}&token={api_key}"
         response = requests.get(url)
         response.raise_for_status()
     except requests.RequestException:
@@ -56,9 +58,9 @@ def lookup(symbol):
     try:
         quote = response.json()
         return {
-            "name": quote["companyName"],
-            "price": float(quote["latestPrice"]),
-            "symbol": quote["symbol"]
+            # adjusting to IEX API documentation for basic service vs premium trial (no 'name', requires '[0]')
+            "price": float(quote[0]["price"]),
+            "symbol": quote[0]["symbol"]
         }
     except (KeyError, TypeError, ValueError):
         return None
