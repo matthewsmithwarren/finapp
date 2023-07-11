@@ -37,7 +37,7 @@
 <h3 align="center">Stock Trading Sandbox deployed on AWS EC2</h3>
 
   <p align="center">
-    project_description
+    Refactored the Finance web application to work outside of Harvard's CS50 environment and then deployed on AWS EC2
     <br />
     <a href="https://github.com/matthewsmithwarren/finapp"><strong>Explore the docs »</strong></a>
     <br />
@@ -85,7 +85,7 @@
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
-Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `matthewsmithwarren`, `finapp`, `matthewswarren`, `matthewsmithwarren`, `gmail`, `matthewsmithwarren`, `Stock Trading Sandbox deployed on AWS EC2`, `project_description`
+Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `matthewsmithwarren`, `finapp`, `matthewswarren`, `matthewsmithwarren`, `gmail`, `matthewsmithwarren`, `Stock Trading Sandbox deployed on AWS EC2`, `Refactored the Finance web application to work outside of Harvard's CS50 environment and then deployed on AWS EC2`
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -122,7 +122,7 @@ This is an example of how to list things you need to use the software and how to
 
 ### Installation
 
-1. Get a free API Key at [https://example.com](https://example.com)
+1. Get a free API Key at [https://iexcloud.io/](https://iexcloud.io/)
 2. Clone the repo
    ```sh
    git clone https://github.com/matthewsmithwarren/finapp.git
