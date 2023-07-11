@@ -195,7 +195,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@matthewswarren](https://twitter.com/matthewswarren) - matthewsmithwarren@gmail.com
+Matthew Smith Warren - [@matthewswarren](https://twitter.com/matthewswarren) - matthewsmithwarren@gmail.com
 
 Project Link: [https://github.com/matthewsmithwarren/finapp](https://github.com/matthewsmithwarren/finapp)
 
