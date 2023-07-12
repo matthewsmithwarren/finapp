@@ -182,38 +182,38 @@ Start with a Ubuntu OS somewhere. Then you'll need the following software.
 
 1. Get a free-tier AWS account and create a Ubuntu instance on EC2.
 2. Terminal commands to install and start finapp on AWS
-  * SSH into AWS EC2 server
+3. SSH into AWS EC2 server
   ```sh
   $ ssh -i <your key name>.pem ubuntu@<Public DNS of your EC2> (get this from aws)
   ```
 
-  * Prepare environment on EC2 similar to local
+4. Prepare environment on EC2 similar to local
   ```sh
   sudo apt-get update
   sudo apt-get install python3-venv
   ```
 
-  * Create an SSH connection to the GitHub account with the finapp code
+5. Create an SSH connection to the GitHub account with the finapp code
   ```sh
   ssh-keygen
     ```
 
-  * Few returns on keyboard for default options.
-  * Then capture the public key to give to GitHub
+  Few returns on keyboard for default options.
+  Then capture the public key to give to GitHub
   ```sh
   cat ~/.ssh/id_rsa.pub
   ```
-  * Copy the meat of what's returned. Go into GitHub settings and add SSH key with paste of above
+  Copy the meat of what's returned. Go into GitHub settings and add SSH key with paste of above.
 
-  * Now, within GitHub, go to the finapp repository and copy the Clone link under the SSH tab 
+  Within GitHub, go to the finapp repository and copy the Clone link under the SSH tab 
   
-  * Go back to aws/ubuntu terminal and clone
+6. Go back to aws/ubuntu terminal and clone finapp code
   ```sh 
   git clone <link to repo>
   ```
   ls to see finapp folder directory and then cd into directory finapp
 
-  * Create virtual environment
+7. Create virtual environment and set up in a way similar to local
   ```sh
   python3 -m venv venv
   ```
