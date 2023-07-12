@@ -18,14 +18,6 @@
 *** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
 *** https://www.markdownguide.org/basic-syntax/#reference-style-links
 -->
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
-
-
 
 <!-- PROJECT LOGO -->
 <br />
@@ -238,7 +230,7 @@ Start with a Ubuntu OS somewhere. Then you'll need the following software.
   Sudo apt-get install sqlite3
   ```
 
-11. Install Gunicorn
+11. Check that flask run works and then Install Gunicorn
   ```sh
   pip install gunicorn
   gunicorn -b 0.0.0.0:8000 app:app —env API_KEY=“Your API_KEY here”
@@ -316,9 +308,9 @@ Start with a Ubuntu OS somewhere. Then you'll need the following software.
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+This Stock Trading Sandbox is very basic and intuitive. No usage examples required.
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+_For more examples, please refer to the [Documentation](http://54.85.147.105/login)_
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -327,10 +319,11 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 <!-- ROADMAP -->
 ## Roadmap
 
-- [ ] HTTPS Secure website and favicon
+- [ ] HTTPS Secure website and add logo and favicon
 - [ ] Add HTML page to show a scoreboard of users
     - [ ] include sort capability for performance and user name 
 - [ ] Improve security and the ability to change password
+- [ ] Explore deploying finapp with Terraform, AWS Amplify (serverless) and GitLab
 
 See the [open issues](https://github.com/matthewsmithwarren/finapp/issues) for a full list of proposed features (and known issues).
 
@@ -379,6 +372,7 @@ Project Link: [https://github.com/matthewsmithwarren/finapp](https://github.com/
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
+* Harvard CS50 faculty have done an outstanding job to create a foundation for learning.
 * [Creating a Flask Web Server in EC2 on the AWS Free Tier from scratch!](https://youtu.be/z5XiVh6v4uI)
 * [Step-by-step visual guide on deploying a Flask application on AWS EC2](https://medium.com/techfront/step-by-step-visual-guide-on-deploying-a-flask-application-on-aws-ec2-8e3e8b82c4f7)
 * [API Keys Explained: What They Are and How to Use Them](https://blog.dreamfactory.com/api-keys-explained-what-they-are-and-how-to-use-them/#:~:text=There%20are%20two%20main%20types,server%2Dto%2Dserver%20communications.)
