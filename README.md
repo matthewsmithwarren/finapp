@@ -182,7 +182,7 @@ Start with a Ubuntu OS somewhere. Then you'll need the following software.
 
 1. Get a free-tier AWS account and create a Ubuntu instance on EC2.
 2. Terminal commands to install and start finapp on AWS
-  // SSH into AWS EC2 server
+  SSH into AWS EC2 server
   ```sh
   $ ssh -i <your key name>.pem ubuntu@<Public DNS of your EC2> (get this from aws)
   ```
