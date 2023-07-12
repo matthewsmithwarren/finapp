@@ -182,89 +182,129 @@ Start with a Ubuntu OS somewhere. Then you'll need the following software.
 
 1. Get a free-tier AWS account and create a Ubuntu instance on EC2.
 2. Terminal commands to install and start finapp on AWS
-// SSH into AWS EC2 server
-$ ssh -i <your key name>.pem ubuntu@<Public DNS of your EC2> (get this from aws)
+  ```sh
+  // SSH into AWS EC2 server
+  $ ssh -i <your key name>.pem ubuntu@<Public DNS of your EC2> (get this from aws)
+  ```
+  
+  ```sh
+  // Prepare environment on EC2 similar to local
+  sudo apt-get update
+  sudo apt-get install python3-venv
+  ```
 
-// Prepare environment on EC2 similar to local
-sudo apt-get update
-sudo apt-get install python3-venv
+  ```sh
+  // Create an SSH connection to the GitHub account with the finapp code
+  ssh into GitHub to clone finapp
+  ssh-keygen
+  // Few returns on keyboard for default options
+  ```
 
-// Create an SSH connection to the GitHub account with the finapp code
-ssh into GitHub to clone finapp
-ssh-keygen
-// Few returns on keyboard for default options
+  ```sh
+  // Capture the public key to give to GitHub
+  cat ~/.ssh/id_rsa.pub
+  Copy the meat of return. Go into GitHub settings and add SSH key
+  ```
 
-// Capture the public key to give to GitHub
-cat ~/.ssh/id_rsa.pub
-Copy the meat of return. Go into GitHub settings and add SSH key
+  ```sh
+  // Go back to aws/ubuntu terminal
+  git clone <link to repo>
+  ls to see finapp folder directory and then cd into directory finapp
+  ```
 
-// Go back to aws/ubuntu terminal
-git clone <link to repo>
-ls to see finapp folder directory and then cd into directory finapp
+  ```sh
+  // Create virtual environment
+  python3 -m venv venv
+  source venv/bin/activate
+  ```
 
-// Create virtual environment
-python3 -m venv venv
-source venv/bin/activate
+  ```sh
+  // Pip install flask, flask_session, cs50, requests (see above)
+  ```
 
-// Pip install flask, flask_session, cs50, requests (see above)
+  ```sh
+  // Sqlite3
+  Sudo apt-get install sqlite3
+  ```
 
-// Sqlite3
-Sudo apt-get install sqlite3
+  ```sh
+  // Install gunicorn
+  pip install gunicorn
+  gunicorn -b 0.0.0.0:8000 app:app —env API_KEY=“Your API_KEY here”
+  ```
 
-// Install gunicorn
-pip install gunicorn
-gunicorn -b 0.0.0.0:8000 app:app —env API_KEY=“Your API_KEY here”
+  ```sh
+  // Create a service file to automatically start the app on the AWS EC2
+  // Note: when using Nano to create/modify files, use Ctrl-O, enter, Ctrl-X to save and exit Nano file editor
+  sudo nano /etc/systemd/system/finapp.service
+  ```
 
-// Create a service file to automatically start the app on the AWS EC2
-// Note: when using Nano to create/modify files, use Ctrl-O, enter, Ctrl-X to save and exit Nano file editor
-sudo nano /etc/systemd/system/finapp.service
+  ```sh
+  // Copy this below into the file above
 
-// Copy this below into the file above
+  [Unit]
+  Description=Gunicorn instance for a simple stock trading app
+  After=network.target
+  [Service]
+  User=ubuntu
+  Group=www-data
+  WorkingDirectory=/home/ubuntu/finapp
+  ExecStart=/home/ubuntu/finapp/venv/bin/gunicorn -b localhost:8000 app:app —env API_KEY=“Your API_KEY here”
+  Restart=always
+  [Install]
+  WantedBy=multi-user.target
+  ```
 
-[Unit]
-Description=Gunicorn instance for a simple stock trading app
-After=network.target
-[Service]
-User=ubuntu
-Group=www-data
-WorkingDirectory=/home/ubuntu/finapp
-ExecStart=/home/ubuntu/finapp/venv/bin/gunicorn -b localhost:8000 app:app —env API_KEY=“Your API_KEY here”
-Restart=always
-[Install]
-WantedBy=multi-user.target
+  ```sh
+  // Enable the finapp.service
+  sudo systemctl daemon-reload
+  sudo systemctl start finapp
+  sudo systemctl enable finapp
+  ```
 
-// Enable the finapp.service
-sudo systemctl daemon-reload
-sudo systemctl start finapp
-sudo systemctl enable finapp
+  ```sh
+  // Check that app is working
+  curl localhost:8000
+  ```
 
-// Check that app is working
-curl localhost:8000
+  ```sh
+  // Nginx
+  sudo apt-get install nginx
+  sudo systemctl start nginx
+  sudo systemctl enable nginx
+  ```
 
-// Nginx
-sudo apt-get install nginx
-sudo systemctl start nginx
-sudo systemctl enable nginx
+  ```sh
+  // Check the public ip address from AWS to see a Nginx message
+  ```
 
-// Check the public ip address from AWS to see a Nginx message
+  ```sh
+  // Modify Nginx service file to connect with finapp proxy
+  sudo nano /etc/nginx/sites-available/default
+  ```
 
-// Modify Nginx service file to connect with finapp proxy
-sudo nano /etc/nginx/sites-available/default
+  ```sh
+  //Insert the text below into the code just below comments section
+  upstream flaskfinapp {
+      server 127.0.0.1:8000;
+  }
+  ```
 
-//Insert the text below into the code just below comments section
-upstream flaskfinapp {
-    server 127.0.0.1:8000;
-}
+  ```sh
+  // Find the "location" section of the code and modify to the text below 
+  location / {
+      proxy_pass http://flaskfinapp;
+  }
+  ```
 
-// Find the "location" section of the code and modify to the text below 
-location / {
-    proxy_pass http://flaskfinapp;
-}
+  ```sh
+  // Follow the Nano steps (Ctrl-O, enter, Ctrl-X) to save and exit back to terminal
+  ```
 
-// Follow the Nano steps (Ctrl-O, enter, Ctrl-X) to save and exit back to terminal
-
-// Restart Nginx
-sudo systemctl restart nginx
+  ```sh
+  // Restart Nginx
+  sudo systemctl restart nginx
+  ```
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
