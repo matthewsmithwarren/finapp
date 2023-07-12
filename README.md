@@ -95,11 +95,11 @@ While I understand the pragmatic reason to reduce complexity for the scope of CS
 
 A series of blockers caused this deployment to take much more effort than a typical problem set. Adding to challenges was the fact that there was little support from other classmates working on the same project. Google, StackOverflow and other communities became the source of solutions to each hurdle. And, it was this difficulty and independence that made the eventual success such an outstanding learning process.
 
-As an example, there are insufficient permissions to install NodeJS on this local computer. After exploring various solutions like Oracle's Virtual Box, a Ubuntu GitHub CodeSpace was utilized to run the app while continuing to use the local computer and Visual Studio Code to move files and edit code. Git kept everything in sync.
+As an example, there are insufficient permissions to install NodeJS on this local computer. After exploring various solutions like Oracle's Virtual Box, a Ubuntu GitHub CodeSpace was utilized to run the app while continuing to use the local computer and Visual Studio Code to move files and edit code. Git commands kept everything in sync.
 
 A major blocker that became a learning opportunity was the API for stock price lookup. Finance worked for less than 48 hours before IEX shut down the trial membership in the last days of May 2023. CS50 faculty shifted to a Yahoo Finance API on June 1st but my research showed that Yahoo had shut down the service and it only yielded end-of-day pricing where real-time pricing is important to the user experience. The original code was built around IEX trial using a "premium data package" to pull "companyName", "symbol" and "latestPrice". For this project, a minimum "Bid, Ask, LastTrade" package offered only "symbol" and "price" so the application had to be refactored in a number of functions to accomodate this change. It must also be remembered that an important part of solving problems is understanding where it's breaking. When the IEX API was failing because it was using a premium endpoint and then failing because it was looking for an attribute that was no longer available, exploring a third stock price API (Alpha Vantage) was helpful because the documentation provided some sample code to test the response. This testing method was easily adapted to figure out the IEX problem.
 
-Another key challenge was learning how to a production web server. Gunicorn and Nginx are used to establish a service on the AWS EC2 instance. This involves a complex series of steps with the systemctl, venv, daemon, ports and proxies. However, once you are using a Gunicorn/Nginx service, it is important to incorporate the API_KEY environment in this automation. Digging into the Flask, Gunicor and Nginx documentation, a solution was found. An area that is still not fuly understood, adjusting the systemctl seems to be fragile such that once a service file was modified, the AWS EC2 server did not respond well to edits. So, in the DevOps tinkering, frequently a new instance would be spun up on AWS and the old one terminated. Although tedious, the repetition helped improve my skills, knowledge of templates and overall confidence with cloud provider AWS.
+Another key challenge was learning how to a production web server. Gunicorn and Nginx are used to establish a service on the AWS EC2 instance. Gunicorn and Nginx along with a service file placed in the SystemCTL directory help to automate the process of running the app in a production environment. Setup involves a complex series of steps with the systemctl, venv, daemon, ports and proxies. However, once you are using a Gunicorn/Nginx service, it is important to incorporate the API_KEY environment in this automation. Digging into the Flask, Gunicorn and Nginx documentation, a solution was found. An area that is still not fuly understood, adjusting the systemctl seems to be fragile such that once a service file was modified, the AWS EC2 server did not respond well to edits. So, in the DevOps tinkering, frequently a new instance would be spun up on AWS and the old one terminated. Although tedious, the repetition helped improve my skills, knowledge of templates and overall confidence with cloud provider AWS.
 
 In summary, the Stock Trading Sandbox final project has been an opportunity to translate CS50 basic programming skills in C, Python and SQLite3 to having the confidence to create and deploy software for the friends, family and others people around the world to use and enjoy.
 
@@ -109,27 +109,19 @@ In summary, the Stock Trading Sandbox final project has been an opportunity to t
 
 ### Built With
 
-* [![Flask][https://flask.palletsprojects.com/en/2.3.x/]]
-* Flask
-* Python3
+* Flask [https://flask.palletsprojects.com/en/2.3.x/]
+* Python3-venv
 * Pip3
-* Flask_Session
+* Flask and Flask_Session
 * CS50
 * Requests
+* SQLite3
 * Gunicorn
 * Nginx
 * AWS EC2
 * VisualStudioCode
 * GitHub and Codespaces
-
-* [![Next][Next.js]][Next-url]
-* [![React][React.js]][React-url]
-* [![Vue][Vue.js]][Vue-url]
-* [![Angular][Angular.io]][Angular-url]
-* [![Svelte][Svelte.dev]][Svelte-url]
-* [![Laravel][Laravel.com]][Laravel-url]
 * [![Bootstrap][Bootstrap.com]][Bootstrap-url]
-* [![JQuery][JQuery.com]][JQuery-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
