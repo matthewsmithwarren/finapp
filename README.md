@@ -160,8 +160,7 @@ Start with a Ubuntu OS somewhere. Then you'll need the following software.
    ```sh
    git clone https://github.com/matthewsmithwarren/finapp.git
    ```
-3. Install packages with pip3 (part of python3)
-   * Install dependencies with virtual environment
+3. Install dependency packages with pip3 (part of python3)
   ```sh
   pip install flask
   pip install flask_session
@@ -202,9 +201,11 @@ Start with a Ubuntu OS somewhere. Then you'll need the following software.
   Then copy the public key to give to GitHub
   cat ~/.ssh/id_rsa.pub
   
-  Copy the meat of what is returned. Go into GitHub settings and add SSH key with paste of what was copied above. Save it.
+  Copy the meat of what is returned.
+  Go into GitHub settings and add SSH key with paste of what was copied above.
+  Save it.
 
-  Within GitHub, go back out to the finapp repository and copy the link under the Clone SSH tab 
+  Within GitHub, go back out to the finapp repository and copy the link under the Clone SSH tab.
   ```
 
 6. Switch to aws/ubuntu terminal and clone finapp code
@@ -326,10 +327,10 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 <!-- ROADMAP -->
 ## Roadmap
 
-- [ ] Feature 1
-- [ ] Feature 2
-- [ ] Feature 3
-    - [ ] Nested Feature
+- [ ] HTTPS Secure website and favicon
+- [ ] Add HTML page to show a scoreboard of users
+    - [ ] include sort capability for performance and user name 
+- [ ] Improve security and the ability to change password
 
 See the [open issues](https://github.com/matthewsmithwarren/finapp/issues) for a full list of proposed features (and known issues).
 
