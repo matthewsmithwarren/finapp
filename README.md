@@ -111,7 +111,7 @@ In summary, the Stock Trading Sandbox final project has been an opportunity to t
 
 ### Built With
 
-* Flask [https://flask.palletsprojects.com/en/2.3.x/]
+* Flask
 * Python3-venv
 * Pip3
 * Flask and Flask_Session
@@ -132,11 +132,11 @@ In summary, the Stock Trading Sandbox final project has been an opportunity to t
 <!-- GETTING STARTED -->
 ## Getting Started
 
-To get a local copy up and running follow these simple example steps. Deploying to AWS EC2 is more involved and will be covered in another section.
+To get a local copy up and running follow these simple example steps. Deploying to AWS EC2 is more involved and will be covered in later section.
 
 ### Prerequisites
 
-Things you need to use the software and how to install them. Start with a Ubuntu OS
+Start with a Ubuntu OS somewhere. Then you'll need the following software.
 * Update to current version of Ubuntu OS
   ```sh
   sudo apt-get update
@@ -148,13 +148,15 @@ Things you need to use the software and how to install them. Start with a Ubuntu
 * Create and activate virtual environment
   ```sh
   python3 -m venv venv
+  ```
+  ```sh
   source venv/bin/activate
   ```
 
 ### Installation
 
 1. Get a free one-week trial API Key at [https://iexcloud.io/](https://iexcloud.io/)
-2. Clone the repo
+2. Make sure you in the correct parent directory. Clone the repo and a folder "finapp" will created.
    ```sh
    git clone https://github.com/matthewsmithwarren/finapp.git
    ```
