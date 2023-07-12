@@ -93,9 +93,11 @@ A major blocker that became a learning opportunity was the API for stock price l
 
 There was a minor blocker using the PYTZ package for timezone because this has been deprecated.
 
-Another key challenge was learning how to a production web server. Gunicorn and Nginx are used to establish a service on the AWS EC2 instance. Gunicorn and Nginx along with a service file placed in the SystemCTL directory help to automate the process of running the app in a production environment. Setup involves a complex series of steps with the systemctl, venv, daemon, ports and proxies. However, once you are using a Gunicorn/Nginx service, it is important to incorporate the API_KEY environment in this automation. Digging into the Flask, Gunicorn and Nginx documentation, a solution was found. An area that is still not fuly understood, adjusting the systemctl seems to be fragile such that once a service file was modified, the AWS EC2 server did not respond well to edits. So, in the DevOps tinkering, frequently a new instance would be spun up on AWS and the old one terminated. Although tedious, the repetition helped improve my skills, knowledge of templates and overall confidence with cloud provider AWS.
+Another key challenge was learning how to deploy a production web server. Gunicorn WSGI and Nginx load balancer are used to establish a service on the AWS EC2 instance. Gunicorn and Nginx along with a service file placed in the SystemCTL directory help to automate the process of running the app in a production environment. Setup involves a complex series of steps with the systemctl, venv, daemon, ports and proxies. However, once you are using a Gunicorn/Nginx service, it is important to incorporate the API_KEY environment in this automation. Digging into the Flask, Gunicorn and Nginx documentation, a solution was found. An area that is still not fuly understood, adjusting the systemctl seems to be fragile such that once a service file was modified, the AWS EC2 server did not respond well to edits. So, in the DevOps tinkering, frequently a new instance would be spun up on AWS and the old one terminated. Although tedious, the repetition helped improve my skills, knowledge of templates and overall confidence with cloud provider AWS.
 
-In summary, the Stock Trading Sandbox final project has been an opportunity to translate CS50 basic programming skills in C, Python and SQLite3 to having the confidence to create and deploy software for the friends, family and others people around the world to use and enjoy.
+There are many DevOps tutorials which show how to use Docker or AWS to deploy a very basic "Hello, World" app, and there are many examples of interesting applications running in a local environment. This Stock Trading Sandbox combined cloud provider production deployment with an interesting application.
+
+In summary, the Stock Trading Sandbox final project has been an opportunity to translate CS50 basic programming skills in C, Python and SQLite3 to having the confidence to create and deploy software for to show friends, family and others people around the world.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -148,10 +150,10 @@ Start with a Ubuntu OS somewhere. Then you'll need the following software.
 ### Installation
 
 1. Get a free one-week trial API Key at [https://iexcloud.io/](https://iexcloud.io/)
-2. Make sure you in the correct parent directory. Clone the repo and a folder "finapp" will created.
-   ```sh
-   git clone https://github.com/matthewsmithwarren/finapp.git
-   ```
+2. Make sure you in the correct parent directory. Clone the repo and a folder "finapp" will be created.
+  ```sh
+  git clone https://github.com/matthewsmithwarren/finapp.git
+  ```
 3. Install dependency packages with pip3 (part of python3)
   ```sh
   pip install flask
@@ -372,6 +374,7 @@ Project Link: [https://github.com/matthewsmithwarren/finapp](https://github.com/
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
+* Thanks to Othneil Drew for the README template https://github.com/othneildrew/Best-README-Template/pull/73
 * Harvard CS50 faculty have done an outstanding job to create a foundation for learning.
 * [Creating a Flask Web Server in EC2 on the AWS Free Tier from scratch!](https://youtu.be/z5XiVh6v4uI)
 * [Step-by-step visual guide on deploying a Flask application on AWS EC2](https://medium.com/techfront/step-by-step-visual-guide-on-deploying-a-flask-application-on-aws-ec2-8e3e8b82c4f7)
@@ -397,18 +400,6 @@ Project Link: [https://github.com/matthewsmithwarren/finapp](https://github.com/
 [linkedin-url]: https://linkedin.com/in/matthewsmithwarren
 [product-screenshot]: images/screenshot.png
 [Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
-[Next-url]: https://nextjs.org/
-[React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
-[React-url]: https://reactjs.org/
-[Vue.js]: https://img.shields.io/badge/Vue.js-35495E?style=for-the-badge&logo=vuedotjs&logoColor=4FC08D
-[Vue-url]: https://vuejs.org/
-[Angular.io]: https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white
-[Angular-url]: https://angular.io/
-[Svelte.dev]: https://img.shields.io/badge/Svelte-4A4A55?style=for-the-badge&logo=svelte&logoColor=FF3E00
-[Svelte-url]: https://svelte.dev/
-[Laravel.com]: https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white
-[Laravel-url]: https://laravel.com
 [Bootstrap.com]: https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white
 [Bootstrap-url]: https://getbootstrap.com
 [JQuery.com]: https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white
-[JQuery-url]: https://jquery.com 
