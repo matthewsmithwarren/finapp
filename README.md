@@ -99,6 +99,8 @@ As an example, there are insufficient permissions to install NodeJS on this loca
 
 A major blocker that became a learning opportunity was the API for stock price lookup. Finance worked for less than 48 hours before IEX shut down the trial membership in the last days of May 2023. CS50 faculty shifted to a Yahoo Finance API on June 1st but my research showed that Yahoo had shut down the service and it only yielded end-of-day pricing where real-time pricing is important to the user experience. The original code was built around IEX trial using a "premium data package" to pull "companyName", "symbol" and "latestPrice". For this project, a minimum "Bid, Ask, LastTrade" package offered only "symbol" and "price" so the application had to be refactored in a number of functions to accomodate this change. It must also be remembered that an important part of solving problems is understanding where it's breaking. When the IEX API was failing because it was using a premium endpoint and then failing because it was looking for an attribute that was no longer available, exploring a third stock price API (Alpha Vantage) was helpful because the documentation provided some sample code to test the response. This testing method was easily adapted to figure out the IEX problem.
 
+There was a minor blocker using the PYTZ package for timezone because this has been deprecated.
+
 Another key challenge was learning how to a production web server. Gunicorn and Nginx are used to establish a service on the AWS EC2 instance. Gunicorn and Nginx along with a service file placed in the SystemCTL directory help to automate the process of running the app in a production environment. Setup involves a complex series of steps with the systemctl, venv, daemon, ports and proxies. However, once you are using a Gunicorn/Nginx service, it is important to incorporate the API_KEY environment in this automation. Digging into the Flask, Gunicorn and Nginx documentation, a solution was found. An area that is still not fuly understood, adjusting the systemctl seems to be fragile such that once a service file was modified, the AWS EC2 server did not respond well to edits. So, in the DevOps tinkering, frequently a new instance would be spun up on AWS and the old one terminated. Although tedious, the repetition helped improve my skills, knowledge of templates and overall confidence with cloud provider AWS.
 
 In summary, the Stock Trading Sandbox final project has been an opportunity to translate CS50 basic programming skills in C, Python and SQLite3 to having the confidence to create and deploy software for the friends, family and others people around the world to use and enjoy.
@@ -130,32 +132,138 @@ In summary, the Stock Trading Sandbox final project has been an opportunity to t
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+To get a local copy up and running follow these simple example steps. Deploying to AWS EC2 is more involved and will be covered in another section.
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
+Things you need to use the software and how to install them. Start with a Ubuntu OS
+* Update to current version of Ubuntu OS
   ```sh
-  npm install npm@latest -g
+  sudo apt-get update
+  ```
+* Install Python with option to create virtual environments
+  ```sh
+  sudo apt-get install python3-venv
+  ```
+* Create and activate virtual environment
+  ```sh
+  python3 -m venv venv
+  source venv/bin/activate
   ```
 
 ### Installation
 
-1. Get a free API Key at [https://iexcloud.io/](https://iexcloud.io/)
+1. Get a free one-week trial API Key at [https://iexcloud.io/](https://iexcloud.io/)
 2. Clone the repo
    ```sh
    git clone https://github.com/matthewsmithwarren/finapp.git
    ```
-3. Install NPM packages
-   ```sh
-   npm install
-   ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
-   ```
+3. Install packages with pip3 (part of python3)
+   * Install dependencies with virtual environment
+  ```sh
+  pip install flask
+  pip install flask_session
+  pip install cs50
+  pip install requests
+  sudo apt-get install sqlite3
+  ```
+4. Provide API_KEY
+  ```sh
+  export API_KEY="Your API key here inside the quotations"
+  ```
+5. Run the application (also may use "python app.py")
+  ```sh
+  flask run
+  ```
+
+### AWS EC2 deployment
+
+1. Get a free-tier AWS account and create a Ubuntu instance on EC2.
+2. Terminal commands to install and start finapp on AWS
+// SSH into AWS EC2 server
+$ ssh -i <your key name>.pem ubuntu@<Public DNS of your EC2> (get this from aws)
+
+// Prepare environment on EC2 similar to local
+sudo apt-get update
+sudo apt-get install python3-venv
+
+// Create an SSH connection to the GitHub account with the finapp code
+ssh into GitHub to clone finapp
+ssh-keygen
+// Few returns on keyboard for default options
+
+// Capture the public key to give to GitHub
+cat ~/.ssh/id_rsa.pub
+Copy the meat of return. Go into GitHub settings and add SSH key
+
+// Go back to aws/ubuntu terminal
+git clone <link to repo>
+ls to see finapp folder directory and then cd into directory finapp
+
+// Create virtual environment
+python3 -m venv venv
+source venv/bin/activate
+
+// Pip install flask, flask_session, cs50, requests (see above)
+
+// Sqlite3
+Sudo apt-get install sqlite3
+
+// Install gunicorn
+pip install gunicorn
+gunicorn -b 0.0.0.0:8000 app:app —env API_KEY=“Your API_KEY here”
+
+// Create a service file to automatically start the app on the AWS EC2
+// Note: when using Nano to create/modify files, use Ctrl-O, enter, Ctrl-X to save and exit Nano file editor
+sudo nano /etc/systemd/system/finapp.service
+
+// Copy this below into the file above
+
+[Unit]
+Description=Gunicorn instance for a simple stock trading app
+After=network.target
+[Service]
+User=ubuntu
+Group=www-data
+WorkingDirectory=/home/ubuntu/finapp
+ExecStart=/home/ubuntu/finapp/venv/bin/gunicorn -b localhost:8000 app:app —env API_KEY=“Your API_KEY here”
+Restart=always
+[Install]
+WantedBy=multi-user.target
+
+// Enable the finapp.service
+sudo systemctl daemon-reload
+sudo systemctl start finapp
+sudo systemctl enable finapp
+
+// Check that app is working
+curl localhost:8000
+
+// Nginx
+sudo apt-get install nginx
+sudo systemctl start nginx
+sudo systemctl enable nginx
+
+// Check the public ip address from AWS to see a Nginx message
+
+// Modify Nginx service file to connect with finapp proxy
+sudo nano /etc/nginx/sites-available/default
+
+//Insert the text below into the code just below comments section
+upstream flaskfinapp {
+    server 127.0.0.1:8000;
+}
+
+// Find the "location" section of the code and modify to the text below 
+location / {
+    proxy_pass http://flaskfinapp;
+}
+
+// Follow the Nano steps (Ctrl-O, enter, Ctrl-X) to save and exit back to terminal
+
+// Restart Nginx
+sudo systemctl restart nginx
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
