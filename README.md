@@ -374,8 +374,8 @@ Project Link: [https://github.com/matthewsmithwarren/finapp](https://github.com/
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
-* Thanks to Othneil Drew for the README template https://github.com/othneildrew/Best-README-Template/pull/73
-* Harvard CS50 faculty have done an outstanding job to create a foundation for learning.
+* Thanks to Othneil Drew for the [README template] (https://github.com/othneildrew/Best-README-Template/pull/73)
+* Harvard CS50 faculty have done an outstanding job to create a foundation for learning. Original Finance problem set and distribution code found [here](https://cs50.harvard.edu/x/2023/psets/9/finance/)
 * [Creating a Flask Web Server in EC2 on the AWS Free Tier from scratch!](https://youtu.be/z5XiVh6v4uI)
 * [Step-by-step visual guide on deploying a Flask application on AWS EC2](https://medium.com/techfront/step-by-step-visual-guide-on-deploying-a-flask-application-on-aws-ec2-8e3e8b82c4f7)
 * [API Keys Explained: What They Are and How to Use Them](https://blog.dreamfactory.com/api-keys-explained-what-they-are-and-how-to-use-them/#:~:text=There%20are%20two%20main%20types,server%2Dto%2Dserver%20communications.)
