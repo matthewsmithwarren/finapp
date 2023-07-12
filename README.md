@@ -198,55 +198,59 @@ Start with a Ubuntu OS somewhere. Then you'll need the following software.
   ssh-keygen
   
   Few returns on keyboard for default options.
+
   Then copy the public key to give to GitHub
- 
   cat ~/.ssh/id_rsa.pub
   
-  Copy the meat of what's returned. Go into GitHub settings and add SSH key with paste of above.
+  Copy the meat of what is returned. Go into GitHub settings and add SSH key with paste of what was copied above. Save it.
 
-  Within GitHub, go to the finapp repository and copy the Clone link under the SSH tab 
+  Within GitHub, go back out to the finapp repository and copy the link under the Clone SSH tab 
   ```
-  
-6. Go back to aws/ubuntu terminal and clone finapp code
+
+6. Switch to aws/ubuntu terminal and clone finapp code
   ```sh 
-  git clone <link to repo>
+  git clone <link to finapp repository>
+  ls
+  cd finapp
   ```
-  ls to see finapp folder directory and then cd into directory finapp
 
 7. Create virtual environment and set up in a way similar to local
   ```sh
   python3 -m venv venv
   ```
 
-  * Activate venv
+8. Activate venv
   ```sh
   source venv/bin/activate
   ```
 
+9. Install packages
   ```sh
-  // Pip install flask, flask_session, cs50, requests (see above)
+  pip install flask
+  pip install flask_session
+  pip install cs50
+  pip install requests
   ```
 
+10. Install Sqlite3
   ```sh
-  // Sqlite3
   Sudo apt-get install sqlite3
   ```
 
+11. Install Gunicorn
   ```sh
-  // Install gunicorn
   pip install gunicorn
   gunicorn -b 0.0.0.0:8000 app:app —env API_KEY=“Your API_KEY here”
   ```
 
+12. Create a Gunicorn service to automatically start finapp on EC2
   ```sh
-  // Create a service file to automatically start the app on the AWS EC2
-  // Note: when using Nano to create/modify files, use Ctrl-O, enter, Ctrl-X to save and exit Nano file editor
+  // When using Nano to create/modify files, use Ctrl-O, enter, Ctrl-X to save and exit Nano file editor
   sudo nano /etc/systemd/system/finapp.service
   ```
 
+13. Copy this below into the file above
   ```sh
-  // Copy this below into the file above
-
   [Unit]
   Description=Gunicorn instance for a simple stock trading app
   After=network.target
@@ -260,57 +264,49 @@ Start with a Ubuntu OS somewhere. Then you'll need the following software.
   WantedBy=multi-user.target
   ```
 
+14. Enable the finapp.service
   ```sh
-  // Enable the finapp.service
   sudo systemctl daemon-reload
   sudo systemctl start finapp
   sudo systemctl enable finapp
   ```
 
+15. Check that app is working
   ```sh
-  // Check that app is working
   curl localhost:8000
   ```
 
+16. Install Nginx
   ```sh
-  // Nginx
   sudo apt-get install nginx
   sudo systemctl start nginx
   sudo systemctl enable nginx
   ```
 
-  ```sh
-  // Check the public ip address from AWS to see a Nginx message
-  ```
+17. Check the public ip address from AWS to see a Nginx message
 
+18. Modify Nginx service file to connect with finapp proxy
   ```sh
-  // Modify Nginx service file to connect with finapp proxy
   sudo nano /etc/nginx/sites-available/default
   ```
 
+19. Insert the text below into the code just below comments section
   ```sh
-  //Insert the text below into the code just below comments section
   upstream flaskfinapp {
       server 127.0.0.1:8000;
   }
   ```
-
-  ```sh
-  // Find the "location" section of the code and modify to the text below 
+20. Find the "location" section of the code and modify to the text below
+  ```sh 
   location / {
       proxy_pass http://flaskfinapp;
   }
   ```
 
+21. Follow the Nano steps (Ctrl-O, enter, Ctrl-X) to save and exit back to terminal and restart Nginx
   ```sh
-  // Follow the Nano steps (Ctrl-O, enter, Ctrl-X) to save and exit back to terminal
-  ```
-
-  ```sh
-  // Restart Nginx
   sudo systemctl restart nginx
   ```
-
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
