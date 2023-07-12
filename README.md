@@ -187,34 +187,39 @@ Start with a Ubuntu OS somewhere. Then you'll need the following software.
   $ ssh -i <your key name>.pem ubuntu@<Public DNS of your EC2> (get this from aws)
   ```
 
+  * Prepare environment on EC2 similar to local
   ```sh
-  // Prepare environment on EC2 similar to local
   sudo apt-get update
   sudo apt-get install python3-venv
   ```
 
+  * Create an SSH connection to the GitHub account with the finapp code
   ```sh
-  // Create an SSH connection to the GitHub account with the finapp code
-  ssh into GitHub to clone finapp
   ssh-keygen
-  // Few returns on keyboard for default options
-  ```
+    ```
 
+  * Few returns on keyboard for default options.
+  * Then capture the public key to give to GitHub
   ```sh
-  // Capture the public key to give to GitHub
   cat ~/.ssh/id_rsa.pub
-  Copy the meat of return. Go into GitHub settings and add SSH key
   ```
+  * Copy the meat of what's returned. Go into GitHub settings and add SSH key with paste of above
 
-  ```sh
-  // Go back to aws/ubuntu terminal
+  * Now, within GitHub, go to the finapp repository and copy the Clone link under the SSH tab 
+  
+  * Go back to aws/ubuntu terminal and clone
+  ```sh 
   git clone <link to repo>
+  ```
   ls to see finapp folder directory and then cd into directory finapp
+
+  * Create virtual environment
+  ```sh
+  python3 -m venv venv
   ```
 
+  * Activate venv
   ```sh
-  // Create virtual environment
-  python3 -m venv venv
   source venv/bin/activate
   ```
 
