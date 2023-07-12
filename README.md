@@ -196,16 +196,16 @@ Start with a Ubuntu OS somewhere. Then you'll need the following software.
 5. Create an SSH connection to the GitHub account with the finapp code
   ```sh
   ssh-keygen
-    ```
-
+  
   Few returns on keyboard for default options.
-  Then capture the public key to give to GitHub
-  ```sh
+  Then copy the public key to give to GitHub
+ 
   cat ~/.ssh/id_rsa.pub
-  ```
+  
   Copy the meat of what's returned. Go into GitHub settings and add SSH key with paste of above.
 
   Within GitHub, go to the finapp repository and copy the Clone link under the SSH tab 
+  ```
   
 6. Go back to aws/ubuntu terminal and clone finapp code
   ```sh 
