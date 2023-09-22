@@ -4,10 +4,10 @@ nav .navbar-brand
     font-size: xx-large;
 }
 
-/* Colors for brand */
+/* Colors for brand default blue #537fbe toggle with #ec15d7 chartruse  */
 nav .navbar-brand .blue
 {
-    color: #537fbe;
+    color: #ec15d7;
 }
 nav .navbar-brand .red
 {
